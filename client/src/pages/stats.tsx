@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import BottomNavigation from "@/components/bottom-navigation";
 import { PeriodEntry, Symptom } from "@shared/schema";
-import { TrendingUp, Calendar, Activity, Clock } from "lucide-react";
+import { TrendingUp, Calendar, Activity, Clock, AlertTriangle } from "lucide-react";
+import { calculateCycleLength, validateCycleLength, NORMAL_CYCLE_RANGE } from "@/lib/cycle-calculations";
 
 interface AnalyticsData {
   averageCycleLength: number;
@@ -70,6 +71,16 @@ export default function Stats() {
     };
   };
 
+  const getCycleValidations = () => {
+    if (periods.length < 2) return [];
+    
+    const cycleLengths = calculateCycleLength(periods);
+    const validations = cycleLengths.map(length => validateCycleLength(length))
+      .filter(validation => !validation.isValid);
+    
+    return validations;
+  };
+
   const getCycleVariability = () => {
     if (periods.length < 3) return 0;
 
@@ -89,6 +100,7 @@ export default function Stats() {
 
   const symptomStats = getSymptomStats();
   const cycleVariability = getCycleVariability();
+  const cycleValidations = getCycleValidations();
 
   return (
     <div className="max-w-md mx-auto bg-white min-h-screen shadow-lg">
@@ -170,6 +182,45 @@ export default function Stats() {
                     </span>
                   </div>
                 )}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      )}
+
+      {/* Cycle Validation Warnings */}
+      {cycleValidations.length > 0 && (
+        <section className="px-6 py-4">
+          <Card className="shadow-sm border border-amber-200 bg-amber-50">
+            <CardContent className="p-4">
+              <div className="flex items-center mb-4">
+                <AlertTriangle className="w-5 h-5 text-amber-600 mr-2" />
+                <h3 className="text-lg font-semibold text-amber-800">Cycle Health Notice</h3>
+              </div>
+              
+              <div className="space-y-3">
+                {cycleValidations.map((validation, index) => (
+                  <div key={index} className="space-y-2">
+                    {validation.warnings.map((warning, wIndex) => (
+                      <p key={wIndex} className="text-sm text-amber-700">{warning}</p>
+                    ))}
+                    {validation.recommendations.length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-amber-200">
+                        <p className="text-xs font-medium text-amber-800 mb-1">Recommendations:</p>
+                        {validation.recommendations.map((rec, rIndex) => (
+                          <p key={rIndex} className="text-xs text-amber-700">• {rec}</p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+                
+                <div className="mt-3 pt-3 border-t border-amber-200">
+                  <p className="text-xs text-amber-600">
+                    Normal cycle length is typically {NORMAL_CYCLE_RANGE.min}-{NORMAL_CYCLE_RANGE.max} days. 
+                    Individual patterns can vary naturally.
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>

@@ -81,3 +81,72 @@ export function isDateInPeriod(date: Date, periods: PeriodEntry[]): { inPeriod: 
 export function formatDate(date: Date): string {
   return date.toISOString().split('T')[0];
 }
+
+// Cycle validation constants
+export const NORMAL_CYCLE_RANGE = { min: 21, max: 35 };
+export const NORMAL_PERIOD_RANGE = { min: 2, max: 8 };
+
+export interface CycleValidation {
+  isValid: boolean;
+  warnings: string[];
+  recommendations: string[];
+}
+
+export function validateCycleLength(cycleLength: number): CycleValidation {
+  const warnings: string[] = [];
+  const recommendations: string[] = [];
+  
+  if (cycleLength < NORMAL_CYCLE_RANGE.min) {
+    warnings.push(`Your cycle is ${cycleLength} days, which is shorter than the typical 21-35 day range.`);
+    recommendations.push("Consider tracking for a few more cycles to establish your pattern.");
+    recommendations.push("If this pattern continues, discuss with your healthcare provider.");
+  } else if (cycleLength > NORMAL_CYCLE_RANGE.max) {
+    warnings.push(`Your cycle is ${cycleLength} days, which is longer than the typical 21-35 day range.`);
+    recommendations.push("Longer cycles can be normal for some people, but tracking is helpful.");
+    recommendations.push("If you have concerns, consider discussing with your healthcare provider.");
+  }
+  
+  return {
+    isValid: cycleLength >= NORMAL_CYCLE_RANGE.min && cycleLength <= NORMAL_CYCLE_RANGE.max,
+    warnings,
+    recommendations
+  };
+}
+
+export function validatePeriodLength(periodLength: number): CycleValidation {
+  const warnings: string[] = [];
+  const recommendations: string[] = [];
+  
+  if (periodLength < NORMAL_PERIOD_RANGE.min) {
+    warnings.push(`Your period lasted ${periodLength} days, which is shorter than the typical 2-8 day range.`);
+    recommendations.push("Very short periods can sometimes indicate hormonal changes.");
+  } else if (periodLength > NORMAL_PERIOD_RANGE.max) {
+    warnings.push(`Your period lasted ${periodLength} days, which is longer than the typical 2-8 day range.`);
+    recommendations.push("Longer periods may warrant discussion with a healthcare provider.");
+  }
+  
+  return {
+    isValid: periodLength >= NORMAL_PERIOD_RANGE.min && periodLength <= NORMAL_PERIOD_RANGE.max,
+    warnings,
+    recommendations
+  };
+}
+
+export function calculateCycleLength(periods: PeriodEntry[]): number[] {
+  if (periods.length < 2) return [];
+  
+  const sortedPeriods = [...periods].sort((a, b) => 
+    new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  );
+  
+  const cycleLengths: number[] = [];
+  
+  for (let i = 1; i < sortedPeriods.length; i++) {
+    const currentStart = new Date(sortedPeriods[i].startDate);
+    const previousStart = new Date(sortedPeriods[i - 1].startDate);
+    const daysDifference = Math.round((currentStart.getTime() - previousStart.getTime()) / (1000 * 60 * 60 * 24));
+    cycleLengths.push(daysDifference);
+  }
+  
+  return cycleLengths;
+}
