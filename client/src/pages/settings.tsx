@@ -4,40 +4,40 @@ import { Separator } from "@/components/ui/separator";
 import BottomNavigation from "@/components/bottom-navigation";
 import { Settings as SettingsIcon, Download, Trash2, Info, Bell, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { useQueryClient } from "@tanstack/react-query";
+import { localStorage } from "@/lib/local-storage";
 
 export default function Settings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const exportData = () => {
-    const periods = queryClient.getQueryData(["/api/periods"]) || [];
-    const symptoms = queryClient.getQueryData(["/api/symptoms"]) || [];
-    
-    const exportData = {
-      periods,
-      symptoms,
-      exportDate: new Date().toISOString(),
-      appVersion: "1.0.0"
-    };
+  const exportData = async () => {
+    try {
+      const data = await localStorage.exportData();
+      
+      const dataStr = JSON.stringify(data, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `luna-period-data-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
 
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `luna-period-data-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    toast({
-      title: "Data exported successfully",
-      description: "Your period tracking data has been downloaded.",
-    });
+      toast({
+        title: "Data exported successfully",
+        description: "Your period tracking data has been downloaded.",
+      });
+    } catch (error) {
+      toast({
+        title: "Export failed",
+        description: "Failed to export your data. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const clearAllData = async () => {
@@ -46,16 +46,7 @@ export default function Settings() {
     }
 
     try {
-      const periods = queryClient.getQueryData(["/api/periods"]) as any[] || [];
-      const symptoms = queryClient.getQueryData(["/api/symptoms"]) as any[] || [];
-
-      // Delete all periods
-      for (const period of periods) {
-        await apiRequest("DELETE", `/api/periods/${period.id}`);
-      }
-
-      // Clear symptoms (we'd need to add a delete endpoint for symptoms too)
-      // For now, we'll just invalidate the cache
+      await localStorage.clearAllData();
       
       queryClient.invalidateQueries({ queryKey: ["/api/periods"] });
       queryClient.invalidateQueries({ queryKey: ["/api/symptoms"] });
@@ -115,8 +106,8 @@ export default function Settings() {
             
             <div className="space-y-3">
               <div className="text-sm text-gray-600 space-y-2">
-                <p>Your data is stored locally and never shared with third parties.</p>
-                <p>All information remains private and secure on your device.</p>
+                <p>Your data is stored locally in your browser and never leaves your device.</p>
+                <p>All information remains completely private and secure - no accounts or internet required.</p>
               </div>
               
               <Separator />
