@@ -7,7 +7,7 @@ import BottomNavigation from "@/components/bottom-navigation";
 import PeriodLogModal from "@/components/period-log-modal";
 import SymptomTrackerModal from "@/components/symptom-tracker-modal";
 import { PeriodEntry, Symptom } from "@shared/schema";
-import { isDateInPeriod, getFlowColor, formatDate, getPredictedPeriodDates } from "@/lib/cycle-calculations";
+import { isDateInPeriod, getFlowColor, formatDate, getYearlyPredictions, isPredictedPeriodDate } from "@/lib/cycle-calculations";
 
 interface AnalyticsData {
   averageCycleLength: number;
@@ -34,6 +34,10 @@ export default function Calendar() {
   const { data: analytics } = useQuery<AnalyticsData>({
     queryKey: ["/api/analytics"],
   });
+
+  // Generate yearly predictions
+  const yearlyPredictions = analytics && periods.length > 0 ? 
+    getYearlyPredictions(periods, analytics.averageCycleLength, analytics.averagePeriodLength) : [];
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -66,24 +70,14 @@ export default function Calendar() {
   };
 
   const getPredictedDates = () => {
-    if (!analytics || periods.length === 0) return [];
-    
-    const lastPeriod = periods[0];
-    const lastPeriodStart = new Date(lastPeriod.startDate);
-    
-    return getPredictedPeriodDates(
-      lastPeriodStart,
-      analytics.averageCycleLength,
-      analytics.averagePeriodLength
-    );
+    return yearlyPredictions;
   };
 
   const getDateInfo = (date: Date) => {
     const dateStr = formatDate(date);
     const periodInfo = isDateInPeriod(date, periods);
     const hasSymptoms = symptoms.some(s => s.date === dateStr);
-    const predictedDates = getPredictedDates();
-    const isPredicted = predictedDates.some(pd => formatDate(pd) === dateStr);
+    const isPredicted = isPredictedPeriodDate(date, yearlyPredictions);
     
     return {
       isPeriod: periodInfo.inPeriod,
@@ -223,13 +217,24 @@ export default function Calendar() {
               </div>
               <div className="flex items-center">
                 <div className="w-3 h-3 bg-period-blue rounded-full mr-2"></div>
-                <span className="text-gray-600">Symptoms</span>
+                <span className="text-gray-600">Feeling</span>
               </div>
               <div className="flex items-center">
                 <div className="w-3 h-3 bg-period-purple rounded-full mr-2"></div>
-                <span className="text-gray-600">Predicted</span>
+                <span className="text-gray-600">Predicted Period</span>
               </div>
             </div>
+            
+            {/* Prediction Info */}
+            {yearlyPredictions.length > 0 && (
+              <div className="mt-4 p-3 bg-period-light rounded-lg">
+                <h4 className="text-sm font-medium text-gray-800 mb-2">Period Predictions</h4>
+                <p className="text-xs text-gray-600">
+                  Based on your cycle history, your next periods are predicted for the dates marked with purple dots. 
+                  The average cycle length is {analytics?.averageCycleLength || 28} days.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </section>

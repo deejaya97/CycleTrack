@@ -26,12 +26,10 @@ export default function Home() {
     queryKey: ["/api/analytics"],
   });
 
-  const { data: todaySymptoms, refetch: refetchSymptoms } = useQuery({
+  const { data: todaySymptoms } = useQuery({
     queryKey: ["/api/symptoms"],
     select: (data: any[]) => {
       const today = new Date().toISOString().split('T')[0];
-      console.log("Today's date:", today);
-      console.log("Available symptom dates:", data.map(s => s.date));
       return data.find(symptom => symptom.date === today);
     }
   });

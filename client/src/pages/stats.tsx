@@ -309,6 +309,60 @@ export default function Stats() {
         </Card>
       </section>
 
+      {/* Prediction Information */}
+      {analytics && periods.length >= 2 && (
+        <section className="px-6 py-4">
+          <Card className="shadow-sm border border-gray-100">
+            <CardContent className="p-4">
+              <div className="flex items-center mb-4">
+                <Calendar className="w-5 h-5 text-period-purple mr-2" />
+                <h3 className="text-lg font-semibold text-gray-800">Period Predictions</h3>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700">Based on cycle history</span>
+                  <span className="font-semibold text-period-purple">
+                    {periods.length} cycles tracked
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700">Average cycle length</span>
+                  <span className="font-semibold text-period-blue">
+                    {analytics.averageCycleLength} days
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700">Average period length</span>
+                  <span className="font-semibold text-period-green">
+                    {analytics.averagePeriodLength} days
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700">Next period predicted</span>
+                  <span className="font-semibold text-period-primary">
+                    {analytics.nextPeriodPrediction ? 
+                      new Date(analytics.nextPeriodPrediction).toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric' 
+                      }) : 
+                      'Not available'
+                    }
+                  </span>
+                </div>
+              </div>
+              
+              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                <p className="text-xs text-gray-600">
+                  💡 View the Calendar page to see your predicted periods for the entire next year marked with purple dots. 
+                  Predictions become more accurate as you track more cycles.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      )}
+
       {/* Cycle Insights */}
       <section className="px-6 py-4">
         <CycleInsights 

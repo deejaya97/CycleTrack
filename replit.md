@@ -45,8 +45,9 @@ Preferred communication style: Simple, everyday language.
 3. **Feeling Tracking**: Daily mood, energy levels, and physical symptoms
 4. **Calendar View**: Visual calendar showing periods, feeling notes, and cycle phases
 5. **Analytics**: Cycle predictions, averages, and trend analysis
-6. **Cycle Validation**: Warnings for cycles outside normal 21-35 day range
-7. **Data Export**: JSON export functionality for user data portability
+6. **Yearly Predictions**: AI-powered period predictions for the next 12 months based on cycle history
+7. **Cycle Validation**: Warnings for cycles outside normal 21-35 day range
+8. **Data Export**: JSON export functionality for user data portability
 
 ### UI Components
 - **Bottom Navigation**: Mobile-first navigation between main app sections

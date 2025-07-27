@@ -65,6 +65,53 @@ export function getPredictedPeriodDates(
   return dates;
 }
 
+export function getYearlyPredictions(
+  periods: PeriodEntry[], 
+  averageCycleLength: number, 
+  averagePeriodLength: number
+): Date[] {
+  if (periods.length === 0) return [];
+  
+  // Get the most recent period
+  const sortedPeriods = periods.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+  const lastPeriod = sortedPeriods[0];
+  const lastPeriodStart = new Date(lastPeriod.startDate);
+  
+  const predictions: Date[] = [];
+  const today = new Date();
+  const oneYearFromNow = new Date();
+  oneYearFromNow.setFullYear(today.getFullYear() + 1);
+  
+  let currentPrediction = new Date(lastPeriodStart);
+  
+  // Generate predictions for the next year
+  while (currentPrediction <= oneYearFromNow) {
+    currentPrediction.setDate(currentPrediction.getDate() + averageCycleLength);
+    
+    // Only include future predictions
+    if (currentPrediction > today) {
+      // Add all days of this predicted period
+      for (let i = 0; i < averagePeriodLength; i++) {
+        const predictionDate = new Date(currentPrediction);
+        predictionDate.setDate(predictionDate.getDate() + i);
+        if (predictionDate <= oneYearFromNow) {
+          predictions.push(new Date(predictionDate));
+        }
+      }
+    }
+  }
+  
+  return predictions;
+}
+
+export function isPredictedPeriodDate(date: Date, predictions: Date[]): boolean {
+  return predictions.some(pred => 
+    pred.getDate() === date.getDate() && 
+    pred.getMonth() === date.getMonth() && 
+    pred.getFullYear() === date.getFullYear()
+  );
+}
+
 export function isDateInPeriod(date: Date, periods: PeriodEntry[]): { inPeriod: boolean; intensity?: string } {
   for (const period of periods) {
     const startDate = new Date(period.startDate);
