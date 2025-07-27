@@ -154,7 +154,8 @@ export class LocalStorage {
     window.localStorage.removeItem(STORAGE_KEYS.SYMPTOMS);
   }
 
-  async exportData(): Promise<{ periods: PeriodEntry[], symptoms: Symptom[], exportDate: string, appVersion: string }> {
+  // Export and import functionality
+  async exportData() {
     const periods = await this.getPeriodEntries();
     const symptoms = await this.getSymptoms();
     
@@ -162,16 +163,21 @@ export class LocalStorage {
       periods,
       symptoms,
       exportDate: new Date().toISOString(),
-      appVersion: CURRENT_VERSION
+      appVersion: "1.0.0"
     };
   }
 
-  async importData(data: { periods: PeriodEntry[], symptoms: Symptom[] }): Promise<void> {
-    if (data.periods) {
-      this.setItems(STORAGE_KEYS.PERIODS, data.periods);
+  async importData(data: any): Promise<void> {
+    if (data.periods && Array.isArray(data.periods)) {
+      const existingPeriods = this.getItems<PeriodEntry>(STORAGE_KEYS.PERIODS);
+      const mergedPeriods = [...existingPeriods, ...data.periods];
+      this.setItems(STORAGE_KEYS.PERIODS, mergedPeriods);
     }
-    if (data.symptoms) {
-      this.setItems(STORAGE_KEYS.SYMPTOMS, data.symptoms);
+    
+    if (data.symptoms && Array.isArray(data.symptoms)) {
+      const existingSymptoms = this.getItems<Symptom>(STORAGE_KEYS.SYMPTOMS);
+      const mergedSymptoms = [...existingSymptoms, ...data.symptoms];
+      this.setItems(STORAGE_KEYS.SYMPTOMS, mergedSymptoms);
     }
   }
 }

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import BottomNavigation from "@/components/bottom-navigation";
+import CycleInsights from "@/components/cycle-insights";
 import { PeriodEntry, Symptom } from "@shared/schema";
 import { TrendingUp, Calendar, Activity, Clock, AlertTriangle } from "lucide-react";
 import { calculateCycleLength, validateCycleLength, NORMAL_CYCLE_RANGE } from "@/lib/cycle-calculations";
@@ -306,6 +307,15 @@ export default function Stats() {
             )}
           </CardContent>
         </Card>
+      </section>
+
+      {/* Cycle Insights */}
+      <section className="px-6 py-4">
+        <CycleInsights 
+          periods={periods} 
+          symptoms={symptoms} 
+          analytics={analytics} 
+        />
       </section>
 
       {/* Bottom padding for navigation */}
