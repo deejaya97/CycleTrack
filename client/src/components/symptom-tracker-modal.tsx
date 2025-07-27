@@ -32,7 +32,7 @@ export default function SymptomTrackerModal({ open, onOpenChange, date }: Sympto
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/symptoms"] });
       toast({
-        title: "Well-being tracked successfully",
+        title: "Feeling tracked successfully",
         description: "Your daily notes have been saved.",
       });
       onOpenChange(false);
@@ -98,7 +98,7 @@ export default function SymptomTrackerModal({ open, onOpenChange, date }: Sympto
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
-            Track Well-being
+            Track Feeling
             <Button
               variant="ghost"
               size="icon"
@@ -109,7 +109,7 @@ export default function SymptomTrackerModal({ open, onOpenChange, date }: Sympto
             </Button>
           </DialogTitle>
           <DialogDescription>
-            Track your daily well-being including mood, energy levels, and how you're feeling.
+            Track how you're feeling today including mood, energy levels, and physical comfort.
           </DialogDescription>
         </DialogHeader>
         

@@ -36,14 +36,14 @@ Preferred communication style: Simple, everyday language.
 
 ### Database Schema
 - **Period Entries**: Tracks menstrual periods with start/end dates and flow intensity
-- **Well-being Records**: Records daily well-being including mood, energy, physical symptoms, and notes
+- **Feeling Records**: Records daily feelings including mood, energy, physical symptoms, and notes
 - **Analytics**: Computed cycle predictions and statistics
 
 ### Core Features
 1. **Period Logging**: Record period start/end dates with flow intensity tracking
 2. **Period Management**: Edit and delete period entries with validation warnings
-3. **Well-being Tracking**: Daily mood, energy levels, and physical symptoms
-4. **Calendar View**: Visual calendar showing periods, well-being notes, and cycle phases
+3. **Feeling Tracking**: Daily mood, energy levels, and physical symptoms
+4. **Calendar View**: Visual calendar showing periods, feeling notes, and cycle phases
 5. **Analytics**: Cycle predictions, averages, and trend analysis
 6. **Cycle Validation**: Warnings for cycles outside normal 21-35 day range
 7. **Data Export**: JSON export functionality for user data portability

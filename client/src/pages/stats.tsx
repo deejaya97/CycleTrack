@@ -235,7 +235,7 @@ export default function Stats() {
             <CardContent className="p-4">
               <div className="flex items-center mb-4">
                 <Activity className="w-5 h-5 text-period-green mr-2" />
-                <h3 className="text-lg font-semibold text-gray-800">Well-being Patterns</h3>
+                <h3 className="text-lg font-semibold text-gray-800">Feeling Patterns</h3>
               </div>
               
               <div className="space-y-3">
@@ -258,7 +258,7 @@ export default function Stats() {
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-700">Total Well-being Entries</span>
+                  <span className="text-gray-700">Total Feeling Entries</span>
                   <span className="font-semibold text-period-purple">
                     {symptoms.length}
                   </span>
