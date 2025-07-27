@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { User, Plus, Heart, Smile, Battery, Circle } from "lucide-react";
 import PeriodLogModal from "@/components/period-log-modal";
 import SymptomTrackerModal from "@/components/symptom-tracker-modal";
+import RecentPeriods from "@/components/recent-periods";
 import BottomNavigation from "@/components/bottom-navigation";
 import { getCurrentCyclePhase } from "@/lib/cycle-calculations";
 
@@ -164,6 +165,11 @@ export default function Home() {
             </Button>
           </CardContent>
         </Card>
+      </section>
+
+      {/* Recent Periods */}
+      <section className="px-6 py-4">
+        <RecentPeriods />
       </section>
 
       {/* Statistics */}

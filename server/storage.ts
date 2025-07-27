@@ -29,7 +29,8 @@ export class MemStorage implements IStorage {
     const entry: PeriodEntry = { 
       ...insertEntry, 
       id,
-      createdAt: new Date()
+      createdAt: new Date(),
+      endDate: insertEntry.endDate || null
     };
     this.periodEntries.set(id, entry);
     return entry;
@@ -59,7 +60,13 @@ export class MemStorage implements IStorage {
     const symptom: Symptom = { 
       ...insertSymptom, 
       id,
-      createdAt: new Date()
+      createdAt: new Date(),
+      mood: insertSymptom.mood || null,
+      energyLevel: insertSymptom.energyLevel || null,
+      cramps: insertSymptom.cramps || null,
+      headache: insertSymptom.headache || null,
+      bloating: insertSymptom.bloating || null,
+      notes: insertSymptom.notes || null
     };
     this.symptoms.set(id, symptom);
     return symptom;
