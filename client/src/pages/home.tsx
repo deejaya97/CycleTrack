@@ -107,7 +107,7 @@ export default function Home() {
           >
             <div className="flex flex-col items-center">
               <Heart className="w-5 h-5 mb-2" />
-              <div>Track Symptoms</div>
+              <div>Track Well-being</div>
             </div>
           </Button>
         </div>
@@ -117,7 +117,7 @@ export default function Home() {
       <section className="px-6 py-4">
         <Card className="shadow-sm border border-gray-100">
           <CardContent className="p-4">
-            <h3 className="text-lg font-semibold text-gray-800 mb-3">Today's Symptoms</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">Today's Well-being</h3>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-gray-700">Mood</span>
@@ -161,7 +161,7 @@ export default function Home() {
               variant="secondary"
               className="w-full mt-4"
             >
-              Update Symptoms
+              Update Well-being
             </Button>
           </CardContent>
         </Card>

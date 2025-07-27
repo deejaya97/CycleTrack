@@ -77,7 +77,7 @@ export default function DataManagement() {
 
       toast({
         title: "Data imported successfully",
-        description: `Imported ${importedData.periods.length} periods and ${importedData.symptoms.length} symptoms.`,
+        description: `Imported ${importedData.periods.length} periods and ${importedData.symptoms.length} well-being entries.`,
       });
 
       setImportFile(null);
@@ -133,7 +133,7 @@ export default function DataManagement() {
             </div>
             <div>
               <div className="text-2xl font-bold text-period-orange">{symptoms.length}</div>
-              <div className="text-sm text-gray-600">Symptom Records</div>
+              <div className="text-sm text-gray-600">Well-being Records</div>
             </div>
           </div>
         </CardContent>
@@ -149,7 +149,7 @@ export default function DataManagement() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-gray-600">
-            Download your period tracking data as a JSON file. This includes all your period entries and symptom records.
+            Download your period tracking data as a JSON file. This includes all your period entries and well-being records.
           </p>
           <Button onClick={exportData} className="w-full">
             <Download className="w-4 h-4 mr-2" />

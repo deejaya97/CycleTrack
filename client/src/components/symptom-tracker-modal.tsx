@@ -32,8 +32,8 @@ export default function SymptomTrackerModal({ open, onOpenChange, date }: Sympto
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/symptoms"] });
       toast({
-        title: "Symptoms tracked successfully",
-        description: "Your symptom data has been saved.",
+        title: "Well-being tracked successfully",
+        description: "Your daily notes have been saved.",
       });
       onOpenChange(false);
       resetForm();
@@ -41,7 +41,7 @@ export default function SymptomTrackerModal({ open, onOpenChange, date }: Sympto
     onError: () => {
       toast({
         title: "Error",
-        description: "Failed to track symptoms. Please try again.",
+        description: "Failed to save your notes. Please try again.",
         variant: "destructive",
       });
     },
@@ -98,7 +98,7 @@ export default function SymptomTrackerModal({ open, onOpenChange, date }: Sympto
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
-            Track Symptoms
+            Track Well-being
             <Button
               variant="ghost"
               size="icon"
@@ -109,7 +109,7 @@ export default function SymptomTrackerModal({ open, onOpenChange, date }: Sympto
             </Button>
           </DialogTitle>
           <DialogDescription>
-            Track your daily symptoms including mood, energy levels, and physical symptoms.
+            Track your daily well-being including mood, energy levels, and how you're feeling.
           </DialogDescription>
         </DialogHeader>
         

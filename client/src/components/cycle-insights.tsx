@@ -100,7 +100,7 @@ export default function CycleInsights({ periods, symptoms, analytics }: CycleIns
       }
     }
 
-    // Symptom pattern insights
+    // Well-being pattern insights
     if (symptoms.length >= 5) {
       const moodSymptoms = symptoms.filter(s => s.mood && s.mood !== "okay");
       const energySymptoms = symptoms.filter(s => s.energyLevel === "low");
@@ -206,7 +206,7 @@ export default function CycleInsights({ periods, symptoms, analytics }: CycleIns
                 <span className="font-medium">{periods.length}</span>
               </div>
               <div className="flex justify-between">
-                <span>Symptoms tracked:</span>
+                <span>Well-being tracked:</span>
                 <span className="font-medium">{symptoms.length} days</span>
               </div>
               {analytics && (
