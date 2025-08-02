@@ -8,6 +8,7 @@ import Calendar from "@/pages/calendar";
 import Stats from "@/pages/stats";
 import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
+import InstallPrompt from "@/components/install-prompt";
 
 function Router() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router />
+        <InstallPrompt />
       </TooltipProvider>
     </QueryClientProvider>
   );
