@@ -4,6 +4,8 @@ import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
+  // Use GITHUB_PAGES_BASE (set during deploy) or GITHUB_PAGES env var to support GitHub Pages
+  base: process.env.GITHUB_PAGES_BASE || (process.env.GITHUB_PAGES === 'true' ? '/'+(process.env.GITHUB_REPOSITORY?.split('/')?.pop() || '')+'/' : '/'),
   plugins: [
     react(),
     runtimeErrorOverlay(),
