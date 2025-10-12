@@ -12,18 +12,19 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Luna">
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json">
+  <!-- PWA Manifest -->
+  <!-- Use Vite's %BASE_URL% token so the final HTML points to the correct base when built for GitHub Pages -->
+  <link rel="manifest" href="%BASE_URL%manifest.json">
     
-    <!-- Favicon and Apple Touch Icons -->
-    <link rel="icon" type="image/svg+xml" href="/luna-icon.svg" />
-    <link rel="apple-touch-icon" href="/luna-icon-192.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/luna-icon-192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/luna-icon-192.png">
+  <!-- Favicon and Apple Touch Icons -->
+  <link rel="icon" type="image/svg+xml" href="%BASE_URL%luna-icon.svg" />
+  <link rel="apple-touch-icon" href="%BASE_URL%luna-icon-192.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="%BASE_URL%luna-icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="%BASE_URL%luna-icon-192.png">
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
   </body>

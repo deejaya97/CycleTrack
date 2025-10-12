@@ -4,25 +4,25 @@
   "description": "Privacy-focused menstrual cycle tracking app with period predictions and feeling tracking",
   "icons": [
     {
-      "src": "/luna-icon-192.png",
+      "src": "luna-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/luna-icon-512.png", 
+      "src": "luna-icon-512.png", 
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#fce4ec",
   "theme_color": "#e91e63",
   "orientation": "portrait-primary",
   "categories": ["health", "lifestyle", "medical"],
   "lang": "en-US",
-  "scope": "/",
+  "scope": ".",
   "prefer_related_applications": false
 }

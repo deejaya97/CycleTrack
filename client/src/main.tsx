@@ -5,7 +5,8 @@ import "./index.css";
 // Register service worker for PWA functionality
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    // Register service worker relative to Vite base
+    navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js')
       .then((registration) => {
         console.log('SW registered: ', registration);
       })
